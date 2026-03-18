@@ -1,0 +1,97 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user statistics and active state.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "email": { "type": "string", "description": "User email" },
+        "stats": { "type": "object", "description": "User stats (XP, level, streak, etc.)" },
+        "activeAgentId": { "type": "string", "description": "Currently selected agent ID" },
+        "currentRoadmapId": { "type": "string", "description": "Currently active roadmap ID" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Agent": {
+      "title": "AI Agent",
+      "description": "Custom AI learning agent created by the user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "systemInstruction": { "type": "string" },
+        "icon": { "type": "string" },
+        "color": { "type": "string" },
+        "userId": { "type": "string" },
+        "traits": { "type": "object" }
+      },
+      "required": ["id", "name", "userId"]
+    },
+    "Roadmap": {
+      "title": "Learning Roadmap",
+      "description": "A 7-day learning plan generated for a specific topic.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "agentId": { "type": "string" },
+        "topic": { "type": "string" },
+        "steps": { "type": "array" },
+        "currentDay": { "type": "number" },
+        "userId": { "type": "string" }
+      },
+      "required": ["id", "agentId", "topic", "userId"]
+    },
+    "Note": {
+      "title": "Learning Note",
+      "description": "A note saved from a chat or manually created.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "agentId": { "type": "string" },
+        "userId": { "type": "string" }
+      },
+      "required": ["id", "content", "userId"]
+    },
+    "Message": {
+      "title": "Chat Message",
+      "description": "A single message in a chat history.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "agentId": { "type": "string" },
+        "role": { "type": "string" },
+        "content": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "userId": { "type": "string" }
+      },
+      "required": ["id", "agentId", "role", "content", "userId"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile and stats."
+    },
+    "/agents/{agentId}": {
+      "schema": "Agent",
+      "description": "User-created agents."
+    },
+    "/roadmaps/{roadmapId}": {
+      "schema": "Roadmap",
+      "description": "Learning roadmaps."
+    },
+    "/notes/{noteId}": {
+      "schema": "Note",
+      "description": "User notes."
+    },
+    "/messages/{messageId}": {
+      "schema": "Message",
+      "description": "Chat messages history."
+    }
+  }
+}
